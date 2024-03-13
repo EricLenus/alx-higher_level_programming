@@ -1,1 +1,2 @@
-Hellow World
+hellow world
+SQL - More queries
