@@ -1,17 +1,14 @@
 #!/usr/bin/node
+// Star Wars
 
 const request = require('request');
+const url = 'https://swapi-api.alx-tools.com/api/films/' + process.argv[2];
 
-const movieId = process.argv[2];
-const apiUrl = `https://swapi-api.alx-tools.com/api/films/${movieId}`;
-
-request.get(apiUrl, (error, response, body) => {
+request.get(url, (error, response, body) => {
   if (error) {
-    console.error(error);
-  } else if (response.statusCode !== 200) {
-    console.error(`Request failed with status code ${response.statusCode}`);
+    console.log(error);
   } else {
-    const movie = JSON.parse(body);
-    console.log(`${movie.title}`);
+    const content = JSON.parse(body);
+    console.log(content.title);
   }
-})
+});
