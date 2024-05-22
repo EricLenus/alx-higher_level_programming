@@ -1,30 +1,20 @@
 #!/usr/bin/node
+// Number of films with the given character ID
 const request = require('request');
+let num = 0;
 
-const apiUrl = process.argv[2];
-const characterId = 18;
-
-// Make a GET request to the API URL
-request.get(apiUrl, (error, response, body) => {
+request.get(process.argv[2], (error, response, body) => {
   if (error) {
-    console.error(error);
-  } else if (response.statusCode !== 200) {
-    console.error('Unexpected response:', response.statusCode);
+    console.log(error);
   } else {
-    try {
-      const films = JSON.parse(body).results;
-      let numMoviesWithWedge = 0;
-
-      for (const film of films) {
-        const characters = film.characters;
-        if (characters.includes(`https://swapi-api.alx-tools.com/api/people/${characterId}/`)) {
-          numMoviesWithWedge++;
+    const content = JSON.parse(body);
+    content.results.forEach((film) => {
+      film.characters.forEach((character) => {
+        if (character.includes(18)) {
+          num += 1;
         }
-      }
-
-      console.log(numMoviesWithWedge);
-    } catch (parseError) {
-      console.error('Error parsing response:', parseError);
-    }
+      });
+    });
+    console.log(num);
   }
 });
